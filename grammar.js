@@ -1,81 +1,95 @@
 module.exports = grammar({
-  name: 'rock',
+    name: 'rock',
+    fileTypes: ['rk'],
 
-  externals: $ => [
-    $._indent,
-    $._indent_incr,
-    $._indent_decr,
-  ],
+    externals: $ => [
+	$._indent,
+	$._indent_incr,
+	$._indent_decr,
+    ],
 
-  rules: {
-    source_file: $ => repeat($.top_level),
+    rules: {
+	source_file: $ => repeat($.top_level),
 
-    top_level: $ => seq(
-      choice(
-        $.function_definition
-      ),
-      repeat('\n')
-    ),
+	top_level: $ => seq(
+	    choice(
+		$.external,
+		$.function_definition,
+	    ),
+	    repeat('\n')
+	),
 
-    function_definition: $ => seq(
-      $.identifier,
-      ':',
-      $.arguments_decl,
-      $.body
-    ),
+	external: $ => seq(
+	    'extern',
+	    $.prototype,
+	),
 
-    arguments_decl: $ => choice(
-      '->',
-      seq(
-        commaSep1($.identifier),
-        '->'
-      ),
-    ),
+	prototype: $ => seq(
+	    $.identifier,
+	    ':',
+	    $.signature,
+	),
 
+	signature: $ => sep1($.type, '=>'),
 
-    _type: $ => choice(
-      'bool',
-      'int'
-    ),
+	function_definition: $ => seq(
+	    $.identifier,
+	    ':',
+	    $.arguments_decl,
+	    $.body
+	),
 
-    body: $ => choice(
-      seq(
-        $._newline,
-          $._indent_incr,
-          repeat1(seq($._indent, $._statement, repeat1($._newline))),
-          $._indent_decr
-      ),
-      $._statement,
-    ),
+	arguments_decl: $ => choice(
+	    '->',
+	    seq(
+		commaSep1($.identifier),
+		'->'
+	    ),
+	),
 
-    _statement: $ => choice(
-      $.return__statement,
-      $._expression
-    ),
+	type: $ => choice(
+	    'Bool',
+	    'Int64'
+	),
 
-    return__statement: $ => seq(
-      'return',
-      $._expression,
-    ),
+	body: $ => choice(
+	    seq(
+		$._newline,
+		$._indent_incr,
+		repeat1(seq($._indent, $._statement, repeat1($._newline))),
+		$._indent_decr
+	    ),
+	    $._statement,
+	),
 
-    _expression: $ => choice(
-      $.identifier,
-      $.number
-    ),
+	_statement: $ => choice(
+	    $.return__statement,
+	    $._expression
+	),
 
-    identifier: $ => /[a-z]+/,
+	return__statement: $ => seq(
+	    'return',
+	    $._expression,
+	),
 
-    number: $ => /\d+/,
+	_expression: $ => choice(
+	    $.identifier,
+	    $.number
+	),
 
-    _newline: $ => /\n/,
-  }
+	identifier: $ => /[a-z]+/,
+
+	number: $ => /\d+/,
+
+	_newline: $ => /\n/,
+    }
 });
 
 function commaSep1(rule) {
-  return sep1(rule, ',')
+    return sep1(rule, ',')
 }
 
 function sep1(rule, separator) {
-  return seq(rule, repeat(seq(separator, rule)))
+    return seq(rule, repeat(seq(separator, rule)))
 }
 
