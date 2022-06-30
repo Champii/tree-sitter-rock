@@ -1,5 +1,24 @@
 [
   {
+    "type": "arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "parenthesis_arguments",
+          "named": true
+        },
+        {
+          "type": "space_arguments",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "arguments_decl",
     "named": true,
     "fields": {},
@@ -15,6 +34,107 @@
     }
   },
   {
+    "type": "array",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "assign",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "binary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "binary_op",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "body",
     "named": true,
     "fields": {},
@@ -23,15 +143,47 @@
       "required": true,
       "types": [
         {
+          "type": "assign",
+          "named": true
+        },
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "boolean",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "dot",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
           "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "return__statement",
           "named": true
         }
       ]
@@ -110,6 +262,72 @@
     }
   },
   {
+    "type": "indice",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "literal",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "array",
+          "named": true
+        },
+        {
+          "type": "boolean",
+          "named": true
+        },
+        {
+          "type": "char",
+          "named": true
+        },
+        {
+          "type": "float",
+          "named": true
+        },
+        {
+          "type": "number",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "mod_decl",
     "named": true,
     "fields": {},
@@ -119,6 +337,125 @@
       "types": [
         {
           "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "native_op",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "operand",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier_path",
+          "named": true
+        },
+        {
+          "type": "literal",
+          "named": true
+        },
+        {
+          "type": "parenthesized_expression",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesis_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parenthesized_expression",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "primary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "operand",
+          "named": true
+        },
+        {
+          "type": "secondary",
           "named": true
         }
       ]
@@ -144,7 +481,7 @@
     }
   },
   {
-    "type": "return__statement",
+    "type": "return",
     "named": true,
     "fields": {},
     "children": {
@@ -152,11 +489,46 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "binary",
           "named": true
         },
         {
-          "type": "number",
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "secondary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arguments",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "indice",
           "named": true
         }
       ]
@@ -187,6 +559,75 @@
       "types": [
         {
           "type": "top_level",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "space_arguments",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "primary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_ctor",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_ctor_arg",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_ctor_arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary",
+          "named": true
+        },
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "native_op",
+          "named": true
+        },
+        {
+          "type": "return",
+          "named": true
+        },
+        {
+          "type": "struct_ctor",
+          "named": true
+        },
+        {
+          "type": "unary",
           "named": true
         }
       ]
@@ -313,6 +754,21 @@
     "fields": {}
   },
   {
+    "type": "unary",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "primary",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "use",
     "named": true,
     "fields": {},
@@ -332,7 +788,27 @@
     "named": false
   },
   {
+    "type": " ",
+    "named": false
+  },
+  {
+    "type": "!",
+    "named": false
+  },
+  {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": "()",
+    "named": false
+  },
+  {
     "type": "(*)",
+    "named": false
+  },
+  {
+    "type": ")",
     "named": false
   },
   {
@@ -344,6 +820,10 @@
     "named": false
   },
   {
+    "type": ".",
+    "named": false
+  },
+  {
     "type": ":",
     "named": false
   },
@@ -352,12 +832,40 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "=>",
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "binary_op",
+    "named": true
+  },
+  {
+    "type": "char",
+    "named": true
+  },
+  {
     "type": "extern",
     "named": false
+  },
+  {
+    "type": "false",
+    "named": false
+  },
+  {
+    "type": "float",
+    "named": true
   },
   {
     "type": "identifier",
@@ -365,6 +873,10 @@
   },
   {
     "type": "impl",
+    "named": false
+  },
+  {
+    "type": "let",
     "named": false
   },
   {
@@ -380,6 +892,10 @@
     "named": false
   },
   {
+    "type": "string",
+    "named": true
+  },
+  {
     "type": "struct",
     "named": false
   },
@@ -388,7 +904,15 @@
     "named": false
   },
   {
+    "type": "true",
+    "named": false
+  },
+  {
     "type": "use",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]

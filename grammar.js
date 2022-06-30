@@ -8,6 +8,14 @@ module.exports = grammar({
 	$._indent_decr,
     ],
 
+    // FIXME: needed for multiline struct decl
+    // extras: $ => [],
+
+    conflicts: $ => [
+	[$.primary],
+	[$.space_arguments],
+    ],
+
     rules: {
 	source_file: $ => repeat($.top_level),
 
@@ -101,18 +109,110 @@ module.exports = grammar({
 	),
 
 	_statement: $ => choice(
-	    $.return__statement,
+	    $.assign,
 	    $._expression
 	),
 
-	return__statement: $ => seq(
-	    'return',
+	assign: $ => seq(
+	    'let',
+	    $.identifier,
+	    '=',
 	    $._expression,
 	),
 
 	_expression: $ => choice(
+	    $.struct_ctor,
+	    $.return,
+	    $.binary,
+	    $.unary,
+	    $.native_op,
+	),
+
+	struct_ctor: $ => seq(
+	    $.type,
+	    indented($.struct_ctor_arg, $),
+	),
+
+	struct_ctor_arg: $ => seq(
 	    $.identifier,
-	    $.number
+	    ':',
+	    $._expression,
+	),
+
+	return: $ => seq(
+	    'return',
+	    $._expression,
+	),
+
+	binary: $ => seq(
+	    $.unary,
+	    $.binary_op,
+	    $._expression,
+	),
+
+	unary: $ => seq(
+	    $.primary,
+	),
+
+	primary: $ => seq(
+	    $.operand,
+	    optional(repeat1($.secondary))
+	),
+
+	operand: $ => choice(
+	    $.literal,
+	    $.identifier_path,
+	    $.parenthesized_expression,
+	),
+
+	literal: $ => choice(
+	    $.boolean,
+	    $.float,
+	    $.number,
+	    $.array,
+	    $.string,
+	    $.char,
+	),
+
+	parenthesized_expression: $ => seq(
+	    '(',
+	    $._expression,
+	    ')'
+	),
+
+	secondary: $ => choice(
+	    $.indice,
+	    $.dot,
+	    $.arguments,
+	),
+
+	indice: $ => seq(
+	    '[',
+	    $._expression,
+	    ']'
+	),
+
+	dot: $ => seq(
+	    '.',
+	    $.identifier
+	),
+
+	arguments: $ => choice(
+	    '!',
+	    '()',
+	    $.parenthesis_arguments,
+	    $.space_arguments,
+	),
+
+	parenthesis_arguments: $ => seq(
+	    '(',
+	    sep1($._expression, ','),
+	    ')'
+	),
+
+	space_arguments: $ => seq(
+	    ' ',
+	    sep1($.primary, ','),
 	),
 
 	type: $ => choice(
@@ -120,11 +220,36 @@ module.exports = grammar({
 	    /[a-z]/,
 	),
 
+	native_op: $ => seq(
+	    '~',
+	    $.type,
+	),
+
+	binary_op: $ => /[\+\-\*\/\|<>=\!\$@&]+/,
+
 	identifier: $ => /@?[a-z]+/,
 
 	number: $ => /\d+/,
 
 	_newline: $ => /\n/,
+
+	boolean: $ => choice(
+	    'true',
+	    'false',
+	),
+
+	float: $ => /\d+\.\d+/,
+
+	char: $ => /'.'/,
+
+	string: $ => /"(?:[^"\\]|\\.)*"/,
+
+    array: $ => seq(
+	'[',
+	commaSep1($._expression),
+	']'
+    ),
+
     }
 });
 

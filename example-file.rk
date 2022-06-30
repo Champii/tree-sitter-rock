@@ -1,24 +1,4 @@
-mod toto
-
-struct Toto
-  lol: Int64
-  mdr: Toto
-
-trait Show a
-  show: a => String
-  lol: mdr -> mdr
-
-impl Show Int64
-  show: lol -> 2
-  lol: data -> data
-
-use toto::mdr
-
-extern toto: Int64 => Bool
-
 main: ->
-  a
-  b
-
-lol: b, c -> 2
-
+  lol 2, 3
+  aa.lol 2, 3
+  aa.mdr
