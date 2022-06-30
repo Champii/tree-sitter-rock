@@ -8,8 +8,8 @@ module.exports = grammar({
 	$._indent_decr,
     ],
 
-    // FIXME: needed for multiline struct decl
-    // extras: $ => [],
+    // FIXME: needed for fine-grained space handling
+    extras: $ => [],
 
     conflicts: $ => [
 	[$.primary],
@@ -33,30 +33,30 @@ module.exports = grammar({
 	),
 
 	external: $ => seq(
-	    'extern',
+	    seq('extern', $._ws),
 	    $.prototype,
 	),
 
 	prototype: $ => seq(
-	    $.identifier,
-	    ':',
+	    seq($.identifier, $._ws),
+	    pad(':', $),
 	    $.signature,
 	),
 
 	use: $ => seq(
-	    'use',
+	    seq('use', $._ws),
 	    $.identifier_path,
 	),
 
 	struct_decl: $ => seq(
-	    'struct',
+	    seq('struct', $._ws),
 	    $.type,
 	    indented($.struct_member, $),
 	),
 
 	trait_decl: $ => seq(
 	    'trait',
-	    $.type,
+	    pad($.type, $),
 	    repeat($.type),
 	    indented($.trait_member, $),
 	),
@@ -68,38 +68,38 @@ module.exports = grammar({
 
 	impl: $ => seq(
 	    'impl',
-	    $.type,
+	    pad($.type, $),
 	    repeat($.type),
 	    indented($.function_definition, $),
 	),
 
 	mod_decl: $ => seq(
-	    'mod',
+	    seq('mod', $._ws),
 	    $.identifier,
 	),
 
 	struct_member: $ => seq(
 	    $.identifier,
-	    ':',
+	    pad(':', $),
 	    $.type,
 	),
 
 	identifier_path: $ => sep1(choice($.identifier, '(*)'), '::'),
 
-	signature: $ => sep1($.type, '=>'),
+	signature: $ => sep1($.type, pad('=>', $)),
 
 	function_definition: $ => seq(
-	    $.identifier,
-	    ':',
+	    seq($.identifier, $._ws),
+	    pad(':', $),
 	    $.arguments_decl,
 	    $.body
 	),
 
 	arguments_decl: $ => choice(
-	    '->',
+	    pad('->', $),
 	    seq(
-		commaSep1($.identifier),
-		'->'
+		commaSep1($.identifier, $),
+		pad('->', $)
 	    ),
 	),
 
@@ -114,9 +114,9 @@ module.exports = grammar({
 	),
 
 	assign: $ => seq(
-	    'let',
+	    seq('let', $._ws),
 	    $.identifier,
-	    '=',
+	    pad('=', $),
 	    $._expression,
 	),
 
@@ -135,7 +135,7 @@ module.exports = grammar({
 
 	struct_ctor_arg: $ => seq(
 	    $.identifier,
-	    ':',
+	    pad(':', $),
 	    $._expression,
 	),
 
@@ -206,13 +206,13 @@ module.exports = grammar({
 
 	parenthesis_arguments: $ => seq(
 	    '(',
-	    sep1($._expression, ','),
+	    sep1($._expression, pad(',', $)),
 	    ')'
 	),
 
 	space_arguments: $ => seq(
-	    ' ',
-	    sep1($.primary, ','),
+	    $._ws,
+	    sep1($.primary, pad(',', $)),
 	),
 
 	type: $ => choice(
@@ -242,19 +242,23 @@ module.exports = grammar({
 
 	char: $ => /'.'/,
 
+	_ws: $ => /[ ]*/,
+	_ws1: $ => /[ ]+/,
+
+
 	string: $ => /"(?:[^"\\]|\\.)*"/,
 
-    array: $ => seq(
-	'[',
-	commaSep1($._expression),
-	']'
-    ),
+	array: $ => seq(
+	    '[',
+	    commaSep1($._expression, $),
+	    ']'
+	),
 
     }
 });
 
-function commaSep1(rule) {
-    return sep1(rule, ',')
+function commaSep1(rule, $) {
+    return sep1(rule, pad(',', $))
 }
 
 function sep1(rule, separator) {
@@ -267,5 +271,13 @@ function indented(rule, $) {
 	$._indent_incr,
 	repeat1(seq($._indent, rule, repeat1($._newline))),
 	$._indent_decr
+    )
+}
+
+function pad(rule, $) {
+    return seq(
+	$._ws,
+	rule,
+	$._ws,
     )
 }

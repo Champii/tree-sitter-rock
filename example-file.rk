@@ -1,4 +1,21 @@
-main: ->
-  lol 2, 3
-  aa.lol 2, 3
-  aa.mdr
+mod toto
+
+use lol::mdr::toto
+
+struct Mdr
+  bar: Toto
+  baz: Tata
+
+trait Lol a
+  lol: Int64 => String
+
+impl Lol a
+  lol: -> 2
+
+main : a, b, c ->
+  let ab = Lol
+    aa: 2
+    bb: aa
+  ab.bar
+  ab.lol a
+
