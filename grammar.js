@@ -14,7 +14,12 @@ module.exports = grammar({
 	top_level: $ => seq(
 	    choice(
 		$.external,
+		$.use,
+		$.struct_decl,
+		$.trait_decl,
+		$.impl,
 		$.function_definition,
+		$.mod_decl,
 	    ),
 	    repeat('\n')
 	),
@@ -29,6 +34,49 @@ module.exports = grammar({
 	    ':',
 	    $.signature,
 	),
+
+	use: $ => seq(
+	    'use',
+	    $.identifier_path,
+	),
+
+	struct_decl: $ => seq(
+	    'struct',
+	    $.type,
+	    indented($.struct_member, $),
+	),
+
+	trait_decl: $ => seq(
+	    'trait',
+	    $.type,
+	    repeat($.type),
+	    indented($.trait_member, $),
+	),
+
+	trait_member: $ => choice(
+	    $.function_definition,
+	    $.prototype,
+	),
+
+	impl: $ => seq(
+	    'impl',
+	    $.type,
+	    repeat($.type),
+	    indented($.function_definition, $),
+	),
+
+	mod_decl: $ => seq(
+	    'mod',
+	    $.identifier,
+	),
+
+	struct_member: $ => seq(
+	    $.identifier,
+	    ':',
+	    $.type,
+	),
+
+	identifier_path: $ => sep1(choice($.identifier, '(*)'), '::'),
 
 	signature: $ => sep1($.type, '=>'),
 
@@ -47,18 +95,8 @@ module.exports = grammar({
 	    ),
 	),
 
-	type: $ => choice(
-	    'Bool',
-	    'Int64'
-	),
-
 	body: $ => choice(
-	    seq(
-		$._newline,
-		$._indent_incr,
-		repeat1(seq($._indent, $._statement, repeat1($._newline))),
-		$._indent_decr
-	    ),
+	    indented($._statement, $),
 	    $._statement,
 	),
 
@@ -77,7 +115,12 @@ module.exports = grammar({
 	    $.number
 	),
 
-	identifier: $ => /[a-z]+/,
+	type: $ => choice(
+	    /[A-Z][a-zA-Z0-9]+/,
+	    /[a-z]/,
+	),
+
+	identifier: $ => /@?[a-z]+/,
 
 	number: $ => /\d+/,
 
@@ -93,3 +136,11 @@ function sep1(rule, separator) {
     return seq(rule, repeat(seq(separator, rule)))
 }
 
+function indented(rule, $) {
+    return seq(
+	$._newline,
+	$._indent_incr,
+	repeat1(seq($._indent, rule, repeat1($._newline))),
+	$._indent_decr
+    )
+}

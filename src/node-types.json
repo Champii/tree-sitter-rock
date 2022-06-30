@@ -76,6 +76,55 @@
     }
   },
   {
+    "type": "identifier_path",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "impl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mod_decl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "prototype",
     "named": true,
     "fields": {},
@@ -144,6 +193,44 @@
     }
   },
   {
+    "type": "struct_decl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "struct_member",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "struct_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "top_level",
     "named": true,
     "fields": {},
@@ -158,6 +245,64 @@
         {
           "type": "function_definition",
           "named": true
+        },
+        {
+          "type": "impl",
+          "named": true
+        },
+        {
+          "type": "mod_decl",
+          "named": true
+        },
+        {
+          "type": "struct_decl",
+          "named": true
+        },
+        {
+          "type": "trait_decl",
+          "named": true
+        },
+        {
+          "type": "use",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_decl",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "trait_member",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "trait_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "function_definition",
+          "named": true
+        },
+        {
+          "type": "prototype",
+          "named": true
         }
       ]
     }
@@ -168,7 +313,26 @@
     "fields": {}
   },
   {
+    "type": "use",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier_path",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "\n",
+    "named": false
+  },
+  {
+    "type": "(*)",
     "named": false
   },
   {
@@ -184,15 +348,11 @@
     "named": false
   },
   {
+    "type": "::",
+    "named": false
+  },
+  {
     "type": "=>",
-    "named": false
-  },
-  {
-    "type": "Bool",
-    "named": false
-  },
-  {
-    "type": "Int64",
     "named": false
   },
   {
@@ -204,11 +364,31 @@
     "named": true
   },
   {
+    "type": "impl",
+    "named": false
+  },
+  {
+    "type": "mod",
+    "named": false
+  },
+  {
     "type": "number",
     "named": true
   },
   {
     "type": "return",
+    "named": false
+  },
+  {
+    "type": "struct",
+    "named": false
+  },
+  {
+    "type": "trait",
+    "named": false
+  },
+  {
+    "type": "use",
     "named": false
   }
 ]
